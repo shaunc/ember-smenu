@@ -1,0 +1,1 @@
+export { default } from 'ember-smenu/ember-smenu/render/esm-item-label/component';

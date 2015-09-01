@@ -1,0 +1,72 @@
+// ember-smenu addon.less
+
+@esm-border-color: rgba(200, 200, 202, .4);
+@esm-background-color: rgba(250, 250, 252, .8);
+
+.esm-item {
+  width: 100%;
+  position: relative;
+  line-height: 1.5em;
+  padding: .1em .2em;
+  background-color: @esm-background-color;
+  border-bottom: 1px solid @esm-border-color;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.esm-label {
+  display: inline-block;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.esm-arrow {
+  position: absolute;
+  display: block;
+  top: 0;
+  width: 1.2em;
+  z-index: 1;
+  height: 100%;
+  box-sizing: border-box;
+  font-size: .9em;
+  padding-top: .2em;
+}
+
+.ember-smenu {
+  
+  width: 100%;
+  border: 1px solid @esm-border-color;
+  overflow: hidden;
+
+  .menu-header {
+    .esm-item;
+    text-align: center;
+  }
+  .menu-header-label {
+    .esm-label;
+  }
+  .menu-header-close {
+    .esm-arrow;
+    border-right: 1px solid @esm-border-color;
+    padding-right: .1em;
+    left: 0;
+  }
+
+  .menu-body {
+    width: 100%;
+    position: relative;
+  }
+  .menu-item {
+    .esm-item;
+  }
+  .menu-item-label {
+    .esm-label;
+  }
+  .menu-item-sub {
+    .esm-arrow;
+    border-left: 1px solid @esm-border-color;
+    padding-left: .1em;
+    padding-top: .2em;
+    right: 0;
+  }
+}

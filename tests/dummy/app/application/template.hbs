@@ -1,0 +1,56 @@
+{{! ember-smenu dummy application template }}
+
+<h3>Defaults</h3>
+<div class="menu-box">
+  {{ember-smenu data=data}}
+</div>
+
+<h3>Override item</h3>
+<div class="menu-box">
+  {{#ember-smenu data=data}}
+
+    {{#esm-header as |current selectHeader close| ~}}
+      {{#if current.prev}}
+        <span class="menu-header-close my-item" {{action close}}
+          >&#x25c0;</span>
+      {{/if}}
+      <span class="menu-header-label my-item" {{action selectHeader}}>
+        {{current.label}}
+      </span>
+    {{/esm-header}}
+
+    {{#esm-item as |item select open| ~}}
+      <span class="menu-item-label my-item" {{action select}}>
+        {{item.label}}
+      </span>
+      {{#if item.items}}
+        <span class="menu-item-sub my-item" {{action open}}
+          >&#x25b6;</span>
+      {{/if}}
+    {{/esm-item}}
+
+  {{/ember-smenu}}
+</div>
+
+<h3>Override label & controls separately</h3>
+<div class="menu-box">
+  {{#ember-smenu data=data}}
+
+    {{#esm-header-label as |current selectHeader| ~}}
+      <span class="my-item" {{action selectHeader}}>{{current.label}}</span>
+    {{/esm-header-label}}
+
+    {{#esm-header-close as |current close| ~}}
+      <span class="my-item" {{action close}}>&#x25c0;</span>
+    {{/esm-header-close}}
+
+    {{#esm-item-label as |item select| ~}}
+      <span class="my-item" {{action select}}>{{item.label}}</span>
+    {{/esm-item-label}}
+
+    {{#esm-item-sub as |item open| ~}}
+      <span class="my-item" {{action open}}>&#x25b6;</span>
+    {{/esm-item-sub}}
+
+  {{/ember-smenu}}
+</div>

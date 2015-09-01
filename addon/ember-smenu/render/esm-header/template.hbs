@@ -1,0 +1,9 @@
+{{! ember-smenu/render/esm-header }}
+{{#unless source ~}}
+  {{#if current.prev ~}}
+    {{ ember-smenu/render/esm-header-close current=current 
+       close=close ~}}
+  {{/if}}
+  {{ember-smenu/render/esm-header-label current=current 
+    selectHeader=selectHeader ~}}
+{{/unless}}

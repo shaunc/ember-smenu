@@ -1,0 +1,7 @@
+{{! ember-smenu/ember-smenu/render/esm-body-cell/template ~}}
+{{#unless source ~}}
+  {{ember-smenu/render/esm-item-label item=item select=select ~}}
+  {{#if item.items ~}}
+    {{ember-smenu/render/esm-item-sub item=item open=open ~}}
+  {{/if}}
+{{/unless}}

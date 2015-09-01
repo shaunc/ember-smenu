@@ -1,0 +1,14 @@
+{{!ember-smenu}}
+
+{{#declaration-block ~}}
+  {{yield ~}}
+{{/declaration-block ~}}
+
+{{#implementation-block declarationsUpdated=declarationsUpdated }}
+  {{#if header ~}}
+    {{ ember-smenu/render/esm-header current=current
+       selectHeader=(action 'selectHeader') close=(action 'close') ~}}
+  {{/if }}
+  {{ ember-smenu/render/esm-body menu=menu
+     select=(action 'select') open=(action 'open')}}
+{{/implementation-block}}

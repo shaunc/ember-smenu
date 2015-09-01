@@ -1,0 +1,7 @@
+{{! ember-menu/esm-item }}
+
+{{#each menu as |item|}}
+  <div class='esm-menu-item'>
+    {{~ yield item (action "select" item) (action 'open' item) ~}}
+  </div>
+{{/each}}
