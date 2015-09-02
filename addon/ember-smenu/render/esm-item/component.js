@@ -2,14 +2,11 @@
 
 import Ember from 'ember';
 import layout from './template';
-import RenderCell from 'ember-declarative/render-cell/mixin';
+import PortalRender from 'ember-declarative/portal-render/mixin';
 
-export default Ember.Component.extend(RenderCell, {
+export default Ember.Component.extend(PortalRender, {
   layout: layout,
   classNames: ['menu-item'],
-  copyChildren: true,
-
-  source: Ember.computed.alias('item.itemElement'),
+  portal: Ember.computed.alias('menu.itemElement'),
   text: Ember.computed.alias('item.label'),
-
 });

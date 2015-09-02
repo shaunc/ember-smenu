@@ -2,16 +2,16 @@
 
 import Ember from 'ember';
 import layout from './template';
-import RenderCell from 'ember-declarative/render-cell/mixin';
+import PortalRender from 'ember-declarative/portal-render/mixin';
 
-export default Ember.Component.extend(RenderCell, {
+export default Ember.Component.extend(PortalRender, {
   layout: layout,
   classNames: ['menu-item-sub'],
-  copyChildren: true,
-
-  source: Ember.computed.alias('item.subElement'),
+  portal: Ember.computed.alias('menu.subElement'),
 
   click() {
-    this.sendAction('open');
+    if (this.get('portal') == null) {
+      this.sendAction('open');
+    }
   }
 });

@@ -1,6 +1,6 @@
 {{! ember-smenu/ember-smenu/render/esm-body }}
 
 {{#each menu as |item index|}}
-  {{ ember-smenu/render/esm-item item=item index=index 
+  {{ ember-smenu/render/esm-item item=item menu=menu portalIndex=index 
      select=(action select item) open=(action open item)}}
 {{/each}}

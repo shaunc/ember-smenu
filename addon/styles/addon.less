@@ -2,8 +2,17 @@
 
 @esm-border-color: rgba(200, 200, 202, .4);
 @esm-background-color: rgba(250, 250, 252, .8);
+@esm-item-color: rgba(100, 100, 105, 0.7);
+@esm-header-color: rgba(90, 90, 95, 0.8);
+
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
 
 .esm-item {
+  .unselectable;
   width: 100%;
   position: relative;
   line-height: 1.5em;
@@ -12,8 +21,10 @@
   border-bottom: 1px solid @esm-border-color;
   cursor: pointer;
   box-sizing: border-box;
+  color: @esm-item-color;
 }
 .esm-label {
+  .unselectable;
   display: inline-block;
   position: relative;
   top: 0;
@@ -21,6 +32,7 @@
   width: 100%;
 }
 .esm-arrow {
+  .unselectable;
   position: absolute;
   display: block;
   top: 0;
@@ -41,6 +53,7 @@
   .menu-header {
     .esm-item;
     text-align: center;
+    color: @esm-header-color;
   }
   .menu-header-label {
     .esm-label;

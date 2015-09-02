@@ -2,12 +2,12 @@
 
 import Ember from 'ember';
 import layout from './template';
-import RenderCell from 'ember-declarative/render-cell/mixin';
+import PortalRender from 'ember-declarative/portal-render/mixin';
 
-export default Ember.Component.extend(RenderCell, {
+export default Ember.Component.extend(PortalRender, {
   layout: layout,
   classNames: ['menu-header-close'],
-  source: Ember.computed.alias('current.headerCloseElement'),
+  portal: Ember.computed.alias('current.headerCloseElement'),
 
   click() {
     this.sendAction('close');

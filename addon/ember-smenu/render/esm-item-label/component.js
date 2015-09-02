@@ -2,18 +2,18 @@
 
 import Ember from 'ember';
 import layout from './template';
-import RenderCell from 'ember-declarative/render-cell/mixin';
+import PortalRender from 'ember-declarative/portal-render/mixin';
 
-export default Ember.Component.extend(RenderCell, {
+export default Ember.Component.extend(PortalRender, {
   layout: layout,
   classNames: ['menu-item-label'],
-  copyChildren: true,
-
-  source: Ember.computed.alias('item.labelElement'),
+  portal: Ember.computed.alias('menu.labelElement'),
   text: Ember.computed.alias('item.label'),
 
   click() {
-    this.sendAction('select');
+    if (this.get('portal') == null) {
+      this.sendAction('select');
+    }
   }
 
 

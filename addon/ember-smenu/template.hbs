@@ -7,7 +7,8 @@
 {{#implementation-block declarationsUpdated=declarationsUpdated }}
   {{#if header ~}}
     {{ ember-smenu/render/esm-header current=current
-       selectHeader=(action 'selectHeader') close=(action 'close') ~}}
+       selectHeader=(action 'selectHeader' current) 
+       close=(action 'close' current) ~}}
   {{/if }}
   {{ ember-smenu/render/esm-body menu=menu
      select=(action 'select') open=(action 'open')}}

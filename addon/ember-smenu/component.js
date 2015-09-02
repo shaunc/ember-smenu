@@ -35,7 +35,6 @@ export default Ember.Component.extend(DeclarationContainer, {
         throw new Error(`path key ${key} not found`);
       }
     }
-    console.log("indexPath", indexPath.join(', '));
     return indexPath;
   }),
 
@@ -52,14 +51,7 @@ export default Ember.Component.extend(DeclarationContainer, {
       current = this._makeCurrentNode(data, indexPath, current);
     }
     let menu = this.getMenu(data, indexPath);
-    menu.current = current;
-    // XXX WHY IS THIS NEEDED?
-    Ember.run.scheduleOnce('actions', ()=>{
-      (this.get('declarations') || []).forEach(decl=>{
-        decl.notifyPropertyChange('menu');
-        decl.notifyPropertyChange('current');
-      });
-    });
+    Ember.set(menu, 'current', current);
     return menu;
   }),
   current: Ember.computed.alias('menu.current'),
@@ -117,21 +109,25 @@ export default Ember.Component.extend(DeclarationContainer, {
 
   actions: {
     select(item) {
-      console.log("SELECT", JSON.stringify(item));
+      this.sendAction('select', item);
+      //console.log("SELECT", JSON.stringify(item));
     },
     open(item) {
       let path = this.get('path')
       let key = item.key;
       path.pushObject(key);
+      this.sendAction('open', item);
 
-      console.log("OPEN", JSON.stringify(item));
+      //console.log("OPEN", JSON.stringify(item));
     },
     selectHeader(current) {
-      console.log("select header", JSON.stringify(current));
+      //console.log("select header", current.label);
+      this.sendAction('selectHeader', current);
     },
     close(current) {
-      console.log("close", JSON.stringify(current));
+      //console.log("close", current.label);
       this.get('path').popObject();
+      this.sendAction('close', current);
     }
   }
 });
