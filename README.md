@@ -1,6 +1,7 @@
 # Ember-smenu
 
-Tree of menu items displayed as vertical sidebar. Uses declarative style for options.
+Tree of menu items displayed as vertical sidebar, using declarative
+style for customization.
 
 ## Installation
 
