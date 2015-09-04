@@ -4,16 +4,22 @@ import Ember from 'ember';
 import layout from './template';
 import DeclarationContainer from 'ember-declarative/declaration-container/mixin';
 
+let Promise = Ember.RSVP.Promise;
+
 export default Ember.Component.extend(DeclarationContainer, {
   layout: layout,
   classNames: ['ember-smenu'],
 
   data: null,
   header: true,
-  path: Ember.computed({ get() { return Ember.A(); }, set(k, v) { return v; }}),
+  path: Ember.computed({ get() { return Ember.A(); }, set(k, v) { 
+    if (typeof v == 'string') {
+      v = v.split('/').filter((step)=> step !== '');
+    }
+    return v; }}),
 
   indexPath: Ember.computed(
-      'data.[]', 'path.[]', 'key', 'items', function(){
+      'data.items.[]', 'path.[]', 'key', 'items', function(){
     let path = this.get('path');
     let indexPath = Ember.A();
     if (path == null) { return indexPath; }
@@ -21,7 +27,7 @@ export default Ember.Component.extend(DeclarationContainer, {
     let item = data;
     for(let ipath = 0; ipath < path.length; ++ipath) {
       let key = path[ipath];
-      let items = this.getItems(data, indexPath);
+      let items = this.getItems(item, indexPath);
       for(let i = 0; i < items.length; i++) {
         item = items[i];
         let itemKey = this.getItemKey(item, indexPath);
@@ -45,9 +51,9 @@ export default Ember.Component.extend(DeclarationContainer, {
     let current = this._makeCurrentNode(data, [], null);
     for(let i = 0; i < indexPath.length; i++) {
       let index = indexPath[i];
-      prefix.push(i);
+      prefix.push(index);
       let items = this.getItems(data, prefix);
-      data = items[i];
+      data = items[index];
       current = this._makeCurrentNode(data, indexPath, current);
     }
     let menu = this.getMenu(data, indexPath);
@@ -57,7 +63,7 @@ export default Ember.Component.extend(DeclarationContainer, {
   current: Ember.computed.alias('menu.current'),
 
   getMenu(data, indexPath) {
-    let sub = this.getItems(data, indexPath);
+    let sub = this.getItems(data, indexPath) || [];
     return sub.map((item, index)=> {
       let currentIndexPath = indexPath.slice()
       currentIndexPath.push(index);
@@ -75,7 +81,7 @@ export default Ember.Component.extend(DeclarationContainer, {
     if (items == null) { items = 'items'; }
     let sub;
     if (typeof items === 'string') {
-      return data[items];
+      return Ember.get(data, items);
     }
     else {
       return items(data, indexPath);
@@ -87,7 +93,7 @@ export default Ember.Component.extend(DeclarationContainer, {
     if (typeof label === 'function') {
       return label(item, indexPath);
     }
-    label = ('' + (item[label] || item)).trim();
+    label = ('' + (Ember.get(item, label) || item)).trim();
     if (label.length == 0) { return ''; }
     return label[0].toUpperCase() + label.slice(1);
   },
@@ -97,7 +103,8 @@ export default Ember.Component.extend(DeclarationContainer, {
     if (typeof key === 'function') {
       return key(item, indexPath)
     }
-    return item[key] || item;
+    key = Ember.get(item, key) || item;
+    return ('' + key).toLowerCase();
   },
   _makeCurrentNode(item, indexPath, prev) {
     return {
