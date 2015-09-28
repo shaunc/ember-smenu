@@ -1,7 +1,7 @@
-{{! ember-menu/esm-item }}
+{{! ember-menu/esm-item-open }}
 
 {{#each menu as |item|}}
-  <div class='esm-menu-sub'>
+  <div class='esm-menu-open'>
     {{~ yield item (action 'open' item) ~}}
   </div>
 {{/each}}

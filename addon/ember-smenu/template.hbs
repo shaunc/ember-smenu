@@ -1,15 +1,33 @@
 {{!ember-smenu}}
 
-{{#declaration-block ~}}
+{{#decl/ed-block ~}}
   {{yield ~}}
-{{/declaration-block ~}}
+{{/decl/ed-block ~}}
 
-{{#implementation-block declarationsUpdated=declarationsUpdated }}
-  {{#if header ~}}
-    {{ ember-smenu/render/esm-header current=current
-       selectHeader=(action 'selectHeader' current) 
-       close=(action 'close' current) ~}}
-  {{/if }}
-  {{ ember-smenu/render/esm-body menu=menu
-     select=(action 'select') open=(action 'open')}}
-{{/implementation-block}}
+{{#if header ~}}
+  {{#impl/ed-portal class="menu-header" portal=headerPortal portalIndex=0 }}
+    {{#if current.prev ~}}
+      {{impl/ed-portal tagName="span" class="menu-header-close"
+          portal=headerClosePortal portalIndex=0
+          click=(action 'close') defaultValue=defaultClose ~}}
+    {{/if}}
+    {{impl/ed-portal tagName="span" class="menu-header-label" 
+        portal=headerLabelPortal portalIndex=0
+        click=(action 'selectHeader') defaultValue=current.label ~}}
+  {{/impl/ed-portal}}
+{{/if}}
+<div class="menu-body">
+  {{#each menu as |item index|}}
+    {{#impl/ed-portal class="menu-item" 
+        portal=itemPortal portalIndex=index }}
+      {{impl/ed-portal tagName="span" class="menu-item-label" 
+          portal=itemLabelPortal portalIndex=index
+          click=(action 'select' item) defaultValue=item.label ~}}
+      {{#if item.items }}
+        {{impl/ed-portal class="menu-item-open"
+            portal=itemOpenPortal portalIndex=index
+            click=(action 'open' item) defaultValue=defaultOpen }}
+      {{/if}}
+    {{/impl/ed-portal}}
+  {{/each}}
+</div>

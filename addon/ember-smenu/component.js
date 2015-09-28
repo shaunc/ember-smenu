@@ -2,21 +2,35 @@
 
 import Ember from 'ember';
 import layout from './template';
-import DeclarationContainer from 'ember-declarative/declaration-container/mixin';
-
-let Promise = Ember.RSVP.Promise;
+import DeclarationContainer from 'ember-declarative/ed-container/mixin';
+import HeaderDeclaration from '../esm-header/component';
+import HeaderCloseDeclaration from '../esm-header-close/component';
+import HeaderLabelDeclaration from '../esm-header-label/component';
+import ItemDeclaration from '../esm-item/component';
+import ItemLabelDeclaration from '../esm-item-label/component';
+import ItemOpenDeclaration from '../esm-item-open/component';
 
 export default Ember.Component.extend(DeclarationContainer, {
   layout: layout,
   classNames: ['ember-smenu'],
 
+  defaultOpen: Ember.String.htmlSafe("▶"),
+  defaultClose: Ember.String.htmlSafe("◀"),
+
   data: null,
   header: true,
   path: Ember.computed({ get() { return Ember.A(); }, set(k, v) { 
-    if (typeof v == 'string') {
+    if (typeof v === 'string') {
       v = v.split('/').filter((step)=> step !== '');
     }
     return v; }}),
+
+  headerPortal: computedDeclaration(HeaderDeclaration),
+  headerClosePortal: computedDeclaration(HeaderCloseDeclaration),
+  headerLabelPortal: computedDeclaration(HeaderLabelDeclaration),
+  itemPortal: computedDeclaration(ItemDeclaration),
+  itemOpenPortal: computedDeclaration(ItemOpenDeclaration),
+  itemLabelPortal: computedDeclaration(ItemLabelDeclaration),
 
   indexPath: Ember.computed(
       'data.items.[]', 'path.[]', 'key', 'items', function(){
@@ -65,13 +79,13 @@ export default Ember.Component.extend(DeclarationContainer, {
   getMenu(data, indexPath) {
     let sub = this.getItems(data, indexPath) || [];
     return sub.map((item, index)=> {
-      let currentIndexPath = indexPath.slice()
+      let currentIndexPath = indexPath.slice();
       currentIndexPath.push(index);
       let label = this.getItemLabel(item, currentIndexPath);
       let key = this.getItemKey(item, currentIndexPath);
       let items = this.getItems(item, currentIndexPath);
       if (items != null && items.length === 0) {
-        items = null
+        items = null;
       }
       return {item, items, label, key, indexPath: currentIndexPath};
     });
@@ -79,12 +93,11 @@ export default Ember.Component.extend(DeclarationContainer, {
   getItems(data, indexPath) {
     let items = this.get('items');
     if (items == null) { items = 'items'; }
-    let sub;
     if (typeof items === 'string') {
-      return Ember.get(data, items);
+      return Ember.get(data, items) || [];
     }
     else {
-      return items(data, indexPath);
+      return items(data, indexPath) || [];
     }
   },
   getItemLabel(item, indexPath) {
@@ -94,14 +107,14 @@ export default Ember.Component.extend(DeclarationContainer, {
       return label(item, indexPath);
     }
     label = ('' + (Ember.get(item, label) || item)).trim();
-    if (label.length == 0) { return ''; }
+    if (label.length === 0) { return ''; }
     return label[0].toUpperCase() + label.slice(1);
   },
   getItemKey(item, indexPath) {
     let key = this.get('key');
     if (key == null) { key = 'name'; }
     if (typeof key === 'function') {
-      return key(item, indexPath)
+      return key(item, indexPath);
     }
     key = Ember.get(item, key) || item;
     return ('' + key).toLowerCase();
@@ -117,15 +130,12 @@ export default Ember.Component.extend(DeclarationContainer, {
   actions: {
     select(item) {
       this.sendAction('select', item);
-      //console.log("SELECT", JSON.stringify(item));
     },
     open(item) {
-      let path = this.get('path')
+      let path = this.get('path');
       let key = item.key;
       path.pushObject(key);
       this.sendAction('open', item);
-
-      //console.log("OPEN", JSON.stringify(item));
     },
     selectHeader(current) {
       //console.log("select header", current.label);
@@ -138,3 +148,16 @@ export default Ember.Component.extend(DeclarationContainer, {
     }
   }
 });
+
+function computedDeclaration(cls) {
+  return Ember.computed('declarations.[]', function(){
+    let matching;
+    (this.get('declarations') || []).some((decl)=>{
+      if (decl instanceof cls) {
+        matching = decl;
+        return true;
+      }
+    });
+    return matching;
+  });
+}

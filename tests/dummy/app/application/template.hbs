@@ -24,7 +24,7 @@
         {{item.label}}
       </span>
       {{#if item.items}}
-        <span class="menu-item-sub my-item" {{action open}}
+        <span class="menu-item-open my-item" {{action open}}
           >&#x25b6;</span>
       {{/if}}
     {{/esm-item}}
@@ -48,9 +48,9 @@
       <span class="my-item" {{action select}}>{{item.label}}</span>
     {{/esm-item-label}}
 
-    {{#esm-item-sub as |item open| ~}}
+    {{#esm-item-open as |item open| ~}}
       <span class="my-item" {{action open}}>&#x25b6;</span>
-    {{/esm-item-sub}}
+    {{/esm-item-open}}
 
   {{/ember-smenu}}
 </div>

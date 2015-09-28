@@ -145,24 +145,34 @@ yields `item` `select` and `open`.
 
 ## Header
 
-By default, the header will contain the label of the current parent item, and an icon
+By default, the header block will contain the label of the current parent item, and an icon
 to navigate up a level. The `header` attribute of `ember-smenu` can be used to choose which
 item attribute to use for header text, or to provide an accessor.
 
 Use `esm-header` to customize display of the header:
 
 	{{#ember-smenu data=data}}
-      {{#esm-header as |item itemIndex parentItem|}}
+      {{#esm-header-label as |item itemIndex parentItem|}}
         <strong>{{item.name}}</strong>
-      {{/esm-header}}
+      {{/esm-header-label}}
     {{/ember-smenu}}
 
-To completely customize the header, including the "up" icon, use `esm-header-block`:
+The "close" icon can be separately customized:
+
+	{{#ember-smenu data=data}}
+	  {{#esm-header-close as |current close|}}
+        {{#link-to action=close}}&#x25c0;{{/link-to}}
+      {{/esm-header-close}}
+    {{/ember-smenu}}
+
+
+To completely customize the header block, including the icon to close a submenu, , use `esm-header`:
 
     {{#ember-smenu data=data}}
-      {{#esm-header-block as |item itemIndex parentItem up|}}
-        {{#elink-to action=up}}{{item.name}}{{/link-to}}
-      {{/esm-header-block}}
+      {{#esm-header as |current select close|}}
+        {{#link-to action=close}}&#x25c0;{{/link-to}}
+	    {{#link-to action=select}}<strong>{{current.name}}</strong>{{/link-to}}
+      {{/esm-header}}
     {{/ember-smenu}}
 
 ## Running Tests
