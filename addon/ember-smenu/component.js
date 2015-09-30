@@ -23,7 +23,7 @@ export default Ember.Component.extend(DeclarationContainer, {
     if (typeof v === 'string') {
       v = v.split('/').filter((step)=> step !== '');
     }
-    return v; }}),
+    return Ember.A(v); }}),
 
   headerPortal: computedDeclaration(HeaderDeclaration),
   headerClosePortal: computedDeclaration(HeaderCloseDeclaration),

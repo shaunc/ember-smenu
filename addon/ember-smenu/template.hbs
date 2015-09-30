@@ -9,11 +9,11 @@
     {{#if current.prev ~}}
       {{impl/ed-portal tagName="span" class="menu-header-close"
           portal=headerClosePortal portalIndex=0
-          click=(action 'close') defaultValue=defaultClose ~}}
+          click=(action 'close' current) defaultValue=defaultClose ~}}
     {{/if}}
     {{impl/ed-portal tagName="span" class="menu-header-label" 
         portal=headerLabelPortal portalIndex=0
-        click=(action 'selectHeader') defaultValue=current.label ~}}
+        click=(action 'selectHeader' current) defaultValue=current.label ~}}
   {{/impl/ed-portal}}
 {{/if}}
 <div class="menu-body">

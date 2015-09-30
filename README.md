@@ -145,9 +145,10 @@ yields `item` `select` and `open`.
 
 ## Header
 
-By default, the header block will contain the label of the current parent item, and an icon
-to navigate up a level. The `header` attribute of `ember-smenu` can be used to choose which
-item attribute to use for header text, or to provide an accessor.
+By default, the header block will contain the label of the current parent
+item, and an icon to navigate up a level. The `header` attribute of `ember-
+smenu` can be used to choose which item attribute to use for header text, or
+to provide an accessor.
 
 Use `esm-header` to customize display of the header:
 
@@ -174,6 +175,26 @@ To completely customize the header block, including the icon to close a submenu,
 	    {{#link-to action=select}}<strong>{{current.name}}</strong>{{/link-to}}
       {{/esm-header}}
     {{/ember-smenu}}
+
+## Actions
+
+A Click on a menu can trigger several different items:
+
+* select: when menu item is clicked on; passes item as argument, with keys:
+  ** item: associated data item
+  ** label: label of item (by default capitalized name)
+  ** key: key of item (by defaualt the name)
+  ** items: list of sub-items
+  ** indexPath: an array of 0-based indices for item from root. For instance
+    if the 2nd item of main menu has a submenu with two items, then
+    `[1, 0]` is the indexPath for the first item on the submenu.
+* open: when a submenu is opened; `item` as above.
+
+* selectHeader: when menu header text is clicked; `current` in argument:
+  ** item: associated data item
+  ** label: label of current submenu
+  ** prev: next submenu up the tree
+* close: when a submenu is closed; `current` as above.
 
 ## Running Tests
 
