@@ -40,7 +40,7 @@ by default. To change this default, specify the `key` attribute.
 
 
 
-## Customizing sub-menu items
+## Specifying sub-menu items attribute
 
 The `items` attribute customizes the default items. Thus, with the data-structure:
 
@@ -96,7 +96,7 @@ To replace the default rendering with your own rendering, you
 can wrap a custom block in `esm-item-label`:
 
     {{#ember-smenu data=data}}
-      {{#esm-item-label as |item select|}}
+      {{#esm-item-label as |item select index|}}
         <span class="shopping-menu-item" {{action select}}>
           {{number}} {{item.label}}</span>
       {{/esm-item-label}}
@@ -122,7 +122,7 @@ sub-menu to open.
 To override how this is drawn, use the `esm-item-sub` declaration:
 
     {{#ember-smenu data=data}}
-      {{#esm-item-sub as |item open|}}
+      {{#esm-item-sub as |item open index|}}
         <span class="my-sub" {{action open}}>&#x25b6;</span>
       {{/esm-item-sub}}
     {{/ember-smenu}}
@@ -133,7 +133,7 @@ The item can be customized as a whole with the `esm-item` element. It
 yields `item` `select` and `open`.
 
     {{#ember-smenu data=data}}
-      {{#esm-item as |item select open|}}
+      {{#esm-item as |item select open index|}}
         <span class="shopping-menu-item" {{action select}}>
           {{number}} {{item.label}}
         </span>

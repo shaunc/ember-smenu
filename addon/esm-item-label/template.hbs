@@ -1,7 +1,7 @@
 {{! ember-menu/esm-item ~}}
 
-{{#each menu as |item| }}
+{{#each menu as |item index| }}
   <div class='esm-menu-label'>
-    {{~ yield item (action "select" item)~}}
+    {{~ yield item (action "select" item) index ~}}
   </div>
 {{/each}}

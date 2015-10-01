@@ -15,8 +15,10 @@ export function selectText(selector, subselector) {
   return $sel.text().trim();
 }
 export function checkText(assert, selector, subselector, text) {
+  const actualText = selectText(selector, subselector);
   assert.equal(
-    selectText(selector, subselector), text);
+    actualText, text.trim(),
+    `text for ->${subselector}: ${actualText} != ${text.trim()}`);
 }
 
 
@@ -27,7 +29,9 @@ export function checkMenuItemText(
     checkText(assert, selector, controlClass, control);
   }
   else {
-    assert.equal(selector.find(controlClass).length, 0);
+    assert.equal(
+      selector.find(controlClass).length, 0, 
+      `unexpected selector on ${itemClass}`);
   }
 }
 

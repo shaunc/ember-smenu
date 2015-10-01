@@ -9,7 +9,7 @@ import {
   } from '../../helpers/ember-smenu';
 
 moduleForComponent(
-  '/ember-smenu', 'Integration | ember-smenu | basic usage', {
+  '/ember-smenu', 'Integration | ember-smenu | custom item', {
   integration: true,
   beforeEach: function() {
     this.application = startApp();
@@ -21,16 +21,32 @@ moduleForComponent(
   }
 });
 
+function getTemplate() {
+  return hbs`
+    {{#ember-smenu data=basicData path=path
+       open=open select=select close=close selectHeader=selectHeader}}
+      {{#esm-item as |item select open index|}}
+        <div class="menu-item-label" {{action select}} >
+          {{index}} {{ item.label }}
+        </div>
+        {{#if item.items }}
+          <div class="menu-item-open" {{action open}} >
+            &gt;
+          </div>
+        {{/if}}
+      {{/esm-item}}
+    {{/ember-smenu}}`;
+}
 
 test('render default content', function(assert) {
   assert.expect(8);
-  this.render(hbs`{{ember-smenu data=basicData}}`);
+  this.render(getTemplate());
   checkSMenuText(this.$('.ember-smenu'), assert, {
     header: {text: 'Shopping', control: null}, // "◀"
     menu: [
-      {text: 'Fruits', control: "▶"},
-      {text: 'Nuts'},
-      {text: 'Bread'}]
+      {text: '0 Fruits', control: ">"},
+      {text: '1 Nuts'},
+      {text: '2 Bread'}]
   });
 });
 
@@ -39,15 +55,15 @@ test('select menu item', function(assert){
     const sub = basicData.items[0];    
     checkSelectedItem(assert, actualItem, sub, [0]);
   });
-  this.render(hbs`{{ember-smenu data=basicData open=open}}`);
+  this.render(getTemplate());
   const fruits = this.$('.menu-item-label')[0];
   click(fruits).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Shopping', control: null}, // "◀"
       menu: [
-        {text: 'Fruits', control: "▶"},
-        {text: 'Nuts'},
-        {text: 'Bread'}]
+        {text: '0 Fruits', control: ">"},
+        {text: '1 Nuts'},
+        {text: '2 Bread'}]
     });
   });
 });
@@ -57,28 +73,29 @@ test('open submenu', function(assert){
     const sub = basicData.items[0];
     checkSelectedItem(assert, item, sub, [0]);
   });
-  this.render(hbs`{{ember-smenu data=basicData open=open}}`);
+  this.render(getTemplate());
   const shopping = this.$('.menu-item-open');
   click(shopping).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Fruits', control: "◀"}, 
       menu: [
-        {text: 'Apple'},
-        {text: 'Banana'},
-        {text: 'Orange', control: "▶"}
+        {text: '0 Apple'},
+        {text: '1 Banana'},
+        {text: '2 Orange', control: ">"}
       ]
     });
   });
 });
 
 test('start at path', function(assert){
-  this.render(hbs`{{ember-smenu data=basicData path="/fruits"}}`);
+  this.set('path', '/fruits');
+  this.render(getTemplate());
   checkSMenuText(this.$('.ember-smenu'), assert, {
     header: {text: 'Fruits', control: "◀"}, 
     menu: [
-      {text: 'Apple'},
-      {text: 'Banana'},
-      {text: 'Orange', control: "▶"}
+      {text: '0 Apple'},
+      {text: '1 Banana'},
+      {text: '2 Orange', control: ">"}
     ]
   });
 });
@@ -89,15 +106,16 @@ test('close sub-menu', function(assert){
     const prev = {label: 'Shopping', item: basicData};
     checkSelectedHeader(assert, actualHeader, sub, prev);
   });
-  this.render(hbs`{{ember-smenu data=basicData path="/fruits" close=close}}`);
+  this.set('path', '/fruits');
+  this.render(getTemplate());
   const close = this.$('.menu-header-close')[0];
   click(close).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Shopping', control: null}, 
       menu: [
-        {text: 'Fruits', control: "▶"},
-        {text: 'Nuts'},
-        {text: 'Bread'}]
+        {text: '0 Fruits', control: ">"},
+        {text: '1 Nuts'},
+        {text: '2 Bread'}]
     });
   });
 });
@@ -108,15 +126,16 @@ test('select header', function(assert){
     const prev = {label: 'Shopping', item: basicData};
     checkSelectedHeader(assert, actualHeader, sub, prev);
   });
-  this.render(hbs`{{ember-smenu data=basicData path="/fruits" selectHeader=selectHeader}}`);
+  this.set('path', '/fruits');
+  this.render(getTemplate());
   const header = this.$('.menu-header-label')[0];
   click(header).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Fruits', control: "◀"}, 
       menu: [
-        {text: 'Apple'},
-        {text: 'Banana'},
-        {text: 'Orange', control: "▶"}
+        {text: '0 Apple'},
+        {text: '1 Banana'},
+        {text: '2 Orange', control: ">"}
       ]
     });
   });
@@ -128,15 +147,15 @@ test('select header, top', function(assert){
     const prev = null;
     checkSelectedHeader(assert, actualHeader, sub, prev);
   });
-  this.render(hbs`{{ember-smenu data=basicData selectHeader=selectHeader}}`);
+  this.render(getTemplate());
   const header = this.$('.menu-header-label')[0];
   click(header).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Shopping', control: null}, 
       menu: [
-        {text: 'Fruits', control: "▶"},
-        {text: 'Nuts'},
-        {text: 'Bread'}]
+        {text: '0 Fruits', control: ">"},
+        {text: '1 Nuts'},
+        {text: '2 Bread'}]
     });
   });
 });
