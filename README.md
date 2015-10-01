@@ -1,5 +1,7 @@
 # Ember-smenu
 
+[![Build Status](https://travis-ci.org/shaunc/ember-smenu.svg)](https://travis-ci.org/shaunc/ember-smenu)
+
 Tree of menu items displayed as vertical sidebar, using declarative
 style for customization.
 
