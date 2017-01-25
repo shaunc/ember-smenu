@@ -51,7 +51,7 @@ The `items` attribute customizes the default items. Thus, with the data-structur
 
 The same menu can be displayed as:
 
-    {{ember-menu data=data items="kinds"}}
+    {{ember-smenu data=data items="kinds"}}
 
 If `items` is a function, it is called on each item to retrieve the submenu
 (if any) for that item. The function should return an array, or the promise of
