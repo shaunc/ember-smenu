@@ -41,7 +41,7 @@ test('select menu item', function(assert){
   });
   this.render(hbs`{{ember-smenu data=basicData open=open}}`);
   const fruits = this.$('.menu-item-label')[0];
-  click(fruits).then(()=>{
+  return click(fruits).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Shopping', control: null}, // "◀"
       menu: [
@@ -59,7 +59,7 @@ test('open submenu', function(assert){
   });
   this.render(hbs`{{ember-smenu data=basicData open=open}}`);
   const shopping = this.$('.menu-item-open');
-  click(shopping).then(()=>{
+  return click(shopping).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Fruits', control: "◀"}, 
       menu: [
@@ -91,7 +91,7 @@ test('close sub-menu', function(assert){
   });
   this.render(hbs`{{ember-smenu data=basicData path="/fruits" close=close}}`);
   const close = this.$('.menu-header-close')[0];
-  click(close).then(()=>{
+  return click(close).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Shopping', control: null}, 
       menu: [
@@ -110,7 +110,7 @@ test('select header', function(assert){
   });
   this.render(hbs`{{ember-smenu data=basicData path="/fruits" selectHeader=selectHeader}}`);
   const header = this.$('.menu-header-label')[0];
-  click(header).then(()=>{
+  return click(header).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Fruits', control: "◀"}, 
       menu: [
@@ -130,7 +130,7 @@ test('select header, top', function(assert){
   });
   this.render(hbs`{{ember-smenu data=basicData selectHeader=selectHeader}}`);
   const header = this.$('.menu-header-label')[0];
-  click(header).then(()=>{
+  return click(header).then(()=>{
     checkSMenuText(this.$('.ember-smenu'), assert, {
       header: {text: 'Shopping', control: null}, 
       menu: [

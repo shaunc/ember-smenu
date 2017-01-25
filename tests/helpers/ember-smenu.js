@@ -1,5 +1,9 @@
 // tests/helpers/ember-smenu
 
+import Ember from 'ember';
+
+const $ = Ember.$;
+
 export let basicData = {
   name: 'shopping', items: [
     {name: 'fruits', items: [
